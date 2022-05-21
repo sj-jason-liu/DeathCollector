@@ -38,10 +38,12 @@ public class Soul : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, _targetPos, _absorbSpeed);
         }
 
-        //if(Vector3.Distance(transform.position, _targetPos) < 0.001f)
-        //{
-        //    Destroy(gameObject);
-        //}
+        if (Vector3.Distance(transform.position, _targetPos) < 0.001f)
+        {
+            //add 1 to player collected souls.
+            GameManager.Instance.CollecteSouls(1);
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,7 +51,6 @@ public class Soul : MonoBehaviour
         if(other.tag == "Player")
         {
             _hasDetectPlayer = true;
-            //_targetPos = other.transform.position;
         }
     }
 

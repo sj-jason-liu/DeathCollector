@@ -33,10 +33,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
-        //if(transform.position.y < -12.45f)
-        //{
-        //    Spawning();
-        //}
     }
 
     public void UpdateSpawnPosition(Vector3 newPosition)

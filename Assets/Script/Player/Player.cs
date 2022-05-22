@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     private CharacterController _controller;
     private PlayerAnimation _anim;
+    private Animator _animator;
     [SerializeField]
     private GameObject _model;
 
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
 
     private bool _isJumping;
     private bool _hasDoubleJump;
+    private bool _isAttacking;
     
     void Start()
     {
@@ -33,6 +35,9 @@ public class Player : MonoBehaviour
         _anim = GetComponentInChildren<PlayerAnimation>();
         if (_anim == null)
             Debug.LogError("Player Animator is NULL!");
+        _animator = GetComponentInChildren<Animator>();
+        if (_animator == null)
+            Debug.LogError("Animator is NULL!");
 
         _spawnPosition = transform.position;
     }
@@ -40,6 +45,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Movement();
+        Attack();
     }
 
     public void UpdateSpawnPosition(Vector3 newPosition)
@@ -47,7 +53,7 @@ public class Player : MonoBehaviour
         _spawnPosition = newPosition;
     }
 
-    public void Spawning()
+    void Spawning()
     {
         _controller.enabled = false;
         transform.position = _spawnPosition;
@@ -59,6 +65,9 @@ public class Player : MonoBehaviour
     {
         //handleing death routine
         //spawning again
+        GameManager.Instance.CollecteSouls(1);
+        Spawning();
+
     }
 
     IEnumerator RestartController()
@@ -80,7 +89,8 @@ public class Player : MonoBehaviour
         float horizontalMove = Input.GetAxis("Horizontal");
         Vector3 movement = new Vector3(horizontalMove, 0, 0);
         Vector3 velocity = movement * _speed;
-        _anim.Moving(Mathf.Abs(horizontalMove));
+        _animator.SetFloat("Moving", Mathf.Abs(horizontalMove));
+        //_anim.Moving(Mathf.Abs(horizontalMove));
         
         if(horizontalMove != 0)
         {
@@ -93,12 +103,14 @@ public class Player : MonoBehaviour
         {
             _hasDoubleJump = false;
             _isJumping = false;
-            _anim.Jumping(_isJumping);
+            _animator.SetBool("Jumping", _isJumping);
+            //_anim.Jumping(_isJumping);
             if (Input.GetKeyDown(KeyCode.Space)) //jump
             {
                 _yVelocity = _jumpHeight;
                 _isJumping = true;
-                _anim.Jumping(_isJumping);
+                //_anim.Jumping(_isJumping);
+                _animator.SetBool("Jumping", _isJumping);
             }
         }
         else
@@ -107,7 +119,8 @@ public class Player : MonoBehaviour
             {
                 _yVelocity += _jumpHeight * _doubleJumpAdjust;
                 _hasDoubleJump = true;
-                _anim.DoubleJump();
+                _animator.SetTrigger("DoubleJump");
+                //_anim.DoubleJump();
             }
             else
             {
@@ -117,5 +130,27 @@ public class Player : MonoBehaviour
 
         velocity.y = _yVelocity;
         _controller.Move(velocity * Time.deltaTime);
+    }
+
+
+    void Attack()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            if (!_isAttacking)
+            {
+                _isAttacking = true;
+                _animator.SetTrigger("Punch");
+            }           
+            else if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Punching")) //After 1st punch
+            {
+                _animator.SetTrigger("Punch");
+            }
+            else if (_animator.GetCurrentAnimatorStateInfo(0).IsName("LeftPunching"))
+            {
+                _animator.SetTrigger("Punch");
+            }
+        }
+        _isAttacking = false;
     }
 }

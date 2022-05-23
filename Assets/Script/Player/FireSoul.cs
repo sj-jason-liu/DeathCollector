@@ -17,10 +17,17 @@ public class FireSoul : MonoBehaviour
 
     void Update()
     {
+        SoulsFiring();
+    }
+
+    void SoulsFiring()
+    {
         if (Input.GetKeyDown(KeyCode.F) && GameManager.Instance.GetCurrentSouls() > 0)
         {
             _animator.SetTrigger("Firing"); //fire souls
             GameManager.Instance.UpdateSouls(-1); //minus 1 from gamemanager
         }
+
+        //instantiate a soul prefab 
     }
 }

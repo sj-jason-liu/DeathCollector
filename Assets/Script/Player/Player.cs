@@ -44,7 +44,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Movement();
+        if(!_isAttacking)
+        {
+            Movement();
+        }
         Attack();
     }
 
@@ -65,7 +68,7 @@ public class Player : MonoBehaviour
     {
         //handleing death routine
         //spawning again
-        GameManager.Instance.CollecteSouls(1);
+        GameManager.Instance.UpdateSouls(1);
         Spawning();
 
     }
@@ -140,6 +143,7 @@ public class Player : MonoBehaviour
             if (!_isAttacking)
             {
                 _isAttacking = true;
+                Debug.Log("Attacking!");
                 _animator.SetTrigger("Punch");
             }           
             else if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Punching")) //After 1st punch
@@ -151,6 +155,12 @@ public class Player : MonoBehaviour
                 _animator.SetTrigger("Punch");
             }
         }
+
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Punching")
+            || _animator.GetCurrentAnimatorStateInfo(0).IsName("LeftPunching")
+            || _animator.GetCurrentAnimatorStateInfo(0).IsName("Cross Punch"))
+            return;
         _isAttacking = false;
+        Debug.Log("Finish attacking!");
     }
 }

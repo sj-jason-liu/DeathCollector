@@ -29,4 +29,6 @@ public class PlayerAnimation : MonoBehaviour
     {
         _animator.SetTrigger("DoubleJump");
     }
+
+    //public bool 
 }

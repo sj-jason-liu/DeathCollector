@@ -41,7 +41,7 @@ public class Soul : MonoBehaviour
         if (Vector3.Distance(transform.position, _targetPos) < 0.001f)
         {
             //add 1 to player collected souls.
-            GameManager.Instance.CollecteSouls(1);
+            GameManager.Instance.UpdateSouls(1);
             Destroy(gameObject);
         }
     }

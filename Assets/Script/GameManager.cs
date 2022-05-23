@@ -32,11 +32,17 @@ public class GameManager : MonoBehaviour
     }
 
     //Calculate collected souls
-    public void CollecteSouls(int soul)
+    public void UpdateSouls(int soul)
     {
         souls += soul;
-        //updated in UI.
-        UIManager.Instance.UpdateText(souls);
+        if (souls <= 0)
+            souls = 0; 
+        UIManager.Instance.UpdateText(souls); //updated in UI.
+    }
+
+    public int GetCurrentSouls()
+    {
+        return souls;
     }
 
     public void UpdateCheckpoint(Vector3 newSpawnPosition)

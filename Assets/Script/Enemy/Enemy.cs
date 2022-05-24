@@ -15,6 +15,27 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField]
     protected Transform waypointA, waypointB;
 
+    protected Animator anim;
+
+    public virtual void Init()
+    {
+        anim = GetComponentInChildren<Animator>();
+        if(anim == null)
+        {
+            Debug.Log("Animator of " + gameObject + " is null!");
+        }
+    }
+
+    private void Start()
+    {
+        Init();
+    }
+
+    public virtual void Movement()
+    {
+
+    }
+
     public virtual void Attack()
     {
 

@@ -87,6 +87,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        IDamageable hit = other.GetComponent<IDamageable>();
+        if (hit == null)
+            return;
+        hit.Damage();
+    }
+
     void Movement()
     {
         float horizontalMove = Input.GetAxis("Horizontal");

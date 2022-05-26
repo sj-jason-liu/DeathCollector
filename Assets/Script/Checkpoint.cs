@@ -13,7 +13,7 @@ public class Checkpoint : MonoBehaviour
     void Start()
     {
         _childTransform = transform.GetChild(0);
-        _mesh = GetComponent<MeshRenderer>();
+        _mesh = transform.GetChild(1).GetComponent<MeshRenderer>();
         _checkedColor = Color.red;
     }
 

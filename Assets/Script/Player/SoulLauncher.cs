@@ -6,12 +6,6 @@ public class SoulLauncher : MonoBehaviour
 {
     [SerializeField]
     private GameObject _attackingSoul;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     public void LaunchSoul()
     {

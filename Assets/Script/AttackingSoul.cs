@@ -6,11 +6,6 @@ public class AttackingSoul : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 3f;
-    
-    void Start()
-    {
-        
-    }
 
     void Update()
     {

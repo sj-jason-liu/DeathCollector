@@ -15,5 +15,6 @@ public class Skinny : Enemy, IDamageable
     public void Damage()
     {
         Debug.Log("Hit " + transform.GetChild(0).name);
+        //damage animation
     }
 }

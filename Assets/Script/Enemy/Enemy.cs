@@ -17,6 +17,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected Animator anim;
     protected Transform model;
+    protected Player player;
 
     protected Vector3 targetPosition;
 
@@ -33,6 +34,11 @@ public abstract class Enemy : MonoBehaviour
         if(model == null)
         {
             Debug.LogError("Enemy model: " + model.gameObject + " is null!");
+        }
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        if(player == null)
+        {
+            Debug.LogError("Player is NULL!");
         }
     }
 
@@ -70,11 +76,31 @@ public abstract class Enemy : MonoBehaviour
             anim.SetTrigger("Idle");
         }
 
+        if (Vector3.Distance(transform.position, player.transform.position) < detectRange)
+        {
+            DetectPlayer();
+        }
+        else if (Vector3.Distance(transform.position, player.transform.position) > detectRange)
+        {
+            //disable attack
+        }
+
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
     }
 
     public virtual void Attack()
     {
+        //hit player by animation event
+    }
 
+    private void DetectPlayer()
+    {
+        //set trigger to animation
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, detectRange);
+        Gizmos.color = Color.red;
     }
 }
